@@ -9,6 +9,8 @@ var ballSpeed = 5;
 
 var p1 = 0;
 var p2 = 0;
+document.getElementById("p1").innerHTML = p1;
+document.getElementById("p2").innerHTML = p2; 
 
 const leftPaddle = {
   // start in the middle of the game on the left side
