@@ -7,10 +7,10 @@ const maxPaddleY = canvas.height - grid - paddleHeight;
 var paddleSpeed = 6;
 var ballSpeed = 5;
 
-let p1 = 6;
-let p2 = 9;
-document.getElementById("p1").innerHTML = 3;
-document.getElementById("p2").innerHTML = 4; 
+var score1 = 6;
+var score2 = 9;
+document.getElementById("p1").innerHTML = score1;
+document.getElementById("p2").innerHTML = score2; 
 
 const leftPaddle = {
   // start in the middle of the game on the left side
