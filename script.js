@@ -7,8 +7,8 @@ const maxPaddleY = canvas.height - grid - paddleHeight;
 var paddleSpeed = 6;
 var ballSpeed = 5;
 
-var p1 = 2;
-var p2 = 3;
+let p1 = 2;
+let p2 = 3;
 document.getElementById("p1").innerHTML = p1;
 document.getElementById("p2").innerHTML = p2; 
 
