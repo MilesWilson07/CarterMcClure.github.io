@@ -104,9 +104,13 @@ function loop() {
     ball.resetting = true;
     
     if(ball.x < 0) {
-    ++score1; }
+    ++score1; 
+    document.getElementById('p1').innerHTML = score1;
+}
     if(ball.x > canvas.width) {
-    ++score2; }
+    ++score2; 
+    document.getElementById('p2').innerHTML = score2; 
+ }
 
     // give some time for the player to recover before launching the ball again
     setTimeout(() => {
