@@ -1,16 +1,76 @@
 const canvas = document.getElementById('game');
+const gameStart = document.getElementById('startScreen');
+const gameOver = document.getElementById('gameoverScreen');
+const scoreboard = document.getElementById('scoreBoard');
 const context = canvas.getContext('2d');
 const grid = 15;
 const paddleHeight = grid * 5; // 80
 const maxPaddleY = canvas.height - grid - paddleHeight;
 
-var paddleSpeed = 6;
-var ballSpeed = 5;
+const aiSpeed = 1.25;
+const paddleSpeed = 6;
+const ballSpeed = 5;
+var animate = true;
 
-var score1 = 0;
-var score2 = 0;
+var score1 = 0; // Right Paddle Score
+var score2 = 0; // Left Paddle Score
 document.getElementById('p1').innerHTML = score1;
 document.getElementById('p2').innerHTML = score2; 
+
+function startGame(){
+  gameStart.style.display = "none";
+  canvas.style.display = "flex";
+  gameOver.style.display ="none";
+  scoreboard.style.display = "inline"; 
+  
+  score1 = 0;
+  score2 = 0;
+  document.getElementById('p1').innerHTML = score1;
+  document.getElementById('p2').innerHTML = score2;
+
+  if (animate == false) {
+    animate = true;
+    requestAnimationFrame(requestAnimationFrame);
+  }
+}
+
+function endGame(){
+  gameStart.style.display = "none";
+  canvas.style.display ="none";
+  gameOver.style.display ="block";
+  scoreboard.style.display = "none";
+
+  
+  animate = false;
+}
+
+function checkScore(){
+  if((score1 >= 7) || (score2 >=7)){
+    endGame();
+  }
+}
+
+function aiMovement(ball, rightPaddle){
+  if(ball.dx > 0){
+    if(ball.y > rightPaddle.y){
+      rightPaddle.dy = aiSpeed;
+      rightPaddle.y += rightPaddle.dy;
+
+      if(rightPaddle.y + rightPaddle.heightight >= maxPaddleY){
+        rightPaddle.y = maxPaddleY - paddleHeight;
+      }
+    }
+
+    if(ball.y < rightPaddle.y){
+      rightPaddle.dy = -aiSpeed;
+      rightPaddle.y += rightPaddle.dy;
+  
+      if(rightPaddle.y <= grid){
+        rightPaddle.y = grid;
+      }
+    }
+  }
+}
 
 const leftPaddle = {
   // start in the middle of the game on the left side
@@ -61,6 +121,8 @@ function loop() {
   requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
 
+  aiMovement(ball, rightPaddle);
+
   // move paddles by their velocity
   leftPaddle.y += leftPaddle.dy;
   rightPaddle.y += rightPaddle.dy;
@@ -104,13 +166,17 @@ function loop() {
     ball.resetting = true;
     
     if(ball.x < 0) {
-    ++score1; 
+    ++score1; // Right Paddle Score
     document.getElementById('p1').innerHTML = score1;
-}
+    }
     if(ball.x > canvas.width) {
-    ++score2; 
+    ++score2; // Left Paddle Score
     document.getElementById('p2').innerHTML = score2; 
- }
+    }
+
+    //aiMovement(ball, rightPaddle);
+
+    checkScore();
 
     // give some time for the player to recover before launching the ball again
     setTimeout(() => {
@@ -136,6 +202,8 @@ function loop() {
     ball.x = rightPaddle.x - ball.width;
   }
 
+  aiMovement(ball, rightPaddle);
+
   // draw ball
   context.fillRect(ball.x, ball.y, ball.width, ball.height);
 
@@ -152,16 +220,6 @@ function loop() {
 
 // listen to keyboard events to move the paddles
 document.addEventListener('keydown', function(e) {
-
-  // up arrow key
-  if (e.which === 38) {
-    rightPaddle.dy = -paddleSpeed;
-  }
-  // down arrow key
-  else if (e.which === 40) {
-    rightPaddle.dy = paddleSpeed;
-  }
-
   // w key
   if (e.which === 87) {
     leftPaddle.dy = -paddleSpeed;
@@ -184,4 +242,6 @@ document.addEventListener('keyup', function(e) {
 });
 
 // start the game
-requestAnimationFrame(loop);
+if(animate == true){
+  requestAnimationFrame(loop);
+}
