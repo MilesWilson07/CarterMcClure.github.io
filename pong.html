@@ -7,11 +7,21 @@
 </head>
 <body>
 <canvas width="750" height="585" id="game"></canvas>
- <p style="color:red;">Score :  </p>
- <p id="p1" style = "color:red;"></p>
- <p style="color:red;"> - <p>
- <p id="p2" style="color:red;"></p>
+<div id="startScreen">
+  <a href="#" onclick="startGame()"> Start Game</a>
+</div> 
+
+<div id="scoreBoard">
+  <p1>Score :  </p1>
+  <p2 id="p2"></p2>
+  <p3> - <p3>
+  <p4 id="p1"></p4>
+</div>
  
+ <div id="gameoverScreen">
+    <h1>Game Over!</h1>
+    <button href="#" onclick="startGame()">Start Game</button>
+ </div>
 
 <script src="script.js"> 
 </script>
